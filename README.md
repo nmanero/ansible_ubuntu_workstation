@@ -1,6 +1,6 @@
 #Ansible profile to install in an Ubuntu
 
-*Packages
+##Packages
 * LibreOffice
 * Subversion
 * Git
@@ -8,11 +8,11 @@
 * Oracle JDK 1.8 (from tar.gz)
 * Maven 3 (from tar.gz)
 
-*Java
+##Java
 Java 7 JDK and Java 8 JDK tar.gz must be downloaded from Oracle website and placed inside files/java folder
 Set the tar.gz filenames in the variables in vars/java.yml
 
-*Roles
+##Roles
 These profile depens on 4 roles that you must install beforehand inside roles folder:
 * geerlingguy.apache
 * cmprescott.chrome
