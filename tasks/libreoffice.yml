@@ -1,0 +1,35 @@
+---
+- name: Install libreoffice-writer
+  apt:
+    name: libreoffice-writer
+    state: present
+
+- name: Install libreoffice-math
+  apt:
+    name: libreoffice-math
+    state: present
+
+- name: Install libreoffice-calc
+  apt:
+    name: libreoffice-calc
+    state: present
+
+- name: Install libreoffice-impress
+  apt:
+    name: libreoffice-impress
+    state: present
+
+- name: Install libreoffice-impress
+  apt:
+    name: libreoffice-impress
+    state: present
+
+- name: Install libreoffice-l10n-es
+  apt:
+    name: libreoffice-l10n-es
+    state: present
+
+- name: Install libreoffice-help-es
+  apt:
+    name: libreoffice-help-es
+    state: present

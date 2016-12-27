@@ -1,0 +1,23 @@
+---
+- set_fact:
+    java_path: "{{ java8_targz_filename.split('.tar.gz')[0] }}"
+
+- stat: path=/opt/{{java_path}}/bin/java
+  register: javaExists
+
+- name: Ensures /opt/{{java_path}} dir exists
+  file: path=/opt/{{java_path}} state=directory owner={{username}} group={{username}}
+
+- name: Unpack archive
+  unarchive: 
+    src: java/{{java8_targz_filename}} 
+    dest: /opt/
+  when: javaExists.stat.exists == False
+
+- name: Fix ownership
+  file: state=directory path=/opt/{{java_path}} owner={{username}} group={{username}} recurse=yes
+  when: javaExists.stat.exists == False
+
+- name: Make Java available for system
+  command: 'update-alternatives --install "/usr/bin/java" "java" "/opt/{{java_path}}/bin/java" 1'
+  become: true

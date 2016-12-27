@@ -1,0 +1,19 @@
+---
+- set_fact:
+    maven_path: "{{ maven3_targz_filename.split('.tar.gz')[0] }}"
+
+- stat: path=/opt/{{maven_path}}/bin/mvn
+  register: mavenExists
+
+- name: Ensures /opt/{{ maven_path }} dir exists
+  file: path=/opt/{{ maven_path }} state=directory owner={{username}} group={{username}}
+
+- name: Unpack archive
+  unarchive: 
+    src: maven/{{maven3_targz_filename}} 
+    dest: /opt/
+  when: mavenExists.stat.exists == False
+
+- name: Fix ownership
+  file: state=directory path=/opt/{{maven_path}} owner={{username}} group={{username}} recurse=yes
+  when: mavenExists.stat.exists == False

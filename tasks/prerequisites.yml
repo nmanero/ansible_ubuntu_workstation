@@ -1,0 +1,12 @@
+---
+- name: Install python to apply templates
+  apt: name=python state=latest
+
+- name: Install unzip
+  apt: name=unzip state=latest
+
+- name: Install rsync
+  apt: name=rsync state=latest
+
+- name: Install aptitude as the package manager
+  apt: name=aptitude state=latest

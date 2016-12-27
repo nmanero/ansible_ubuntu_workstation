@@ -1,0 +1,30 @@
+---
+- set_fact:
+    java_path: "{{ java7_targz_filename.split('.tar.gz')[0] }}"
+
+- stat: path=/opt/{{java_path}}/bin/java
+  register: javaExists
+
+- name: Ensures /opt/{{ java_path }} dir exists
+  file: path=/opt/{{ java_path }} state=directory owner={{username}} group={{username}}
+
+- name: Unpack archive
+  unarchive: 
+    src: java/{{java7_targz_filename}} 
+    dest: /opt/
+  when: javaExists.stat.exists == False
+
+- name: Fix ownership
+  file: state=directory path=/opt/{{ java_path }} owner={{username}} group={{username}} recurse=yes
+  when: javaExists.stat.exists == False
+
+- name: Make Java available for system
+  command: 'update-alternatives --install "/usr/bin/java" "java" "/opt/{{ java_path }}/bin/java" 1'
+  become: true
+
+- name: Set Java alternative
+  command: update-alternatives --set java /opt/{{ java_path }}/bin/java
+  become: true
+
+- name: Set JAVA_HOME
+  lineinfile: dest=/etc/environment state=present regexp='^JAVA_HOME' line='JAVA_HOME=/opt/{{java_path}}'

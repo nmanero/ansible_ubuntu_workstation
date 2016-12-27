@@ -1,0 +1,31 @@
+---
+- hosts: all 
+  become: true
+  remote_user: opensat
+  vars:
+   - username: vagrant
+  vars_files:
+   - vars/mysql.yml
+   - vars/java.yml
+   - vars/maven.yml
+  pre_tasks:
+   - include: tasks/prerequisites.yml
+
+  roles:
+   - { role: geerlingguy.apache }
+   - { role: cmprescott.chrome }
+   - { role: geerlingguy.mysql }
+   - { role: arknoll.firefox }
+
+  tasks:
+   #intellij
+   #tomcat7
+   #tomcat8
+   #.m2
+   #ssh server
+   - include: tasks/libreoffice.yml
+   - include: tasks/subversion.yml
+   - include: tasks/git.yml
+   - include: tasks/installJavaOracle7.yml
+   - include: tasks/installJavaOracle8.yml
+   - include: tasks/installMaven3.yml
